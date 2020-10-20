@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Random Quiz</title>
+</head>
+
+<body>
+    <header>
+        <h1>Ridiculously <br> RANDOM <br> Quiz</h1>
+    </header>
+
+    <main>
+      <button id="start" class="begin">Start Quiz</button>
+
+      <div class="questions boxed">
+          <h3> Question: 1 / 5 </h3>
+          
+          <h2 id="question">Placeholder Question</h2>
+          
+          <form class="boxed">
+          
+            <input type="radio" id="ans1" name="quest" value="${currentQuestion.answer[0]}">
+            <label for="male">Placeholder Answer</label><br>
+          
+            <input type="radio" id="ans2" name="quest" value="${currentQuestion.answer[1]}">
+            <label for="female">Placeholder Answer</label><br>
+          
+            <input type="radio" id="ans3" name="quest" value="${currentQuestion.answer[2]}">
+            <label for="other">Placeholder Answer</label><br>
+          
+            <input type="radio" id="ans4" name="quest" value="${currentQuestion.answer[3]}">
+            <label for="other">Placeholder Answer</label>
+        
+        </form>    
+      </div>
+   
+      <div>
+         <button id="submit">Submit Answer</button>
+      </div>
+    
+      <div class="questions boxed">
+      
+        <h1 id="question" class="smaller">CORRECT!</h2>
+      
+        <button id="next">Next Question</button>
+      
+        <h5>So far: 1 / 5</h5>
+      
+      </div>
+    
+      <div class="questions boxed">
+      
+        <h1 id="question">OH NO...</h2>
+      
+        <h3>The correct answer is <br> Correct Answer<h3>
+      
+        <button id="next">Next Question</button>
+      
+        <h5>So far: 0 / 5</h5>
+      
+      </div>
+    
+      <div class="questions boxed">
+        <h3> Psyche! No more questions! </h3> 
+      
+        <h1 id="question">And the Results Are...</h2>
+      
+        <h3> Dude, you scored <br> 5 / 5! </h3>
+        <button id="again"> Again? </button>
+      </div>
+      
+    </main>
+</body>
+
+</html>
