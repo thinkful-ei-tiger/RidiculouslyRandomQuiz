@@ -1,10 +1,15 @@
 /**
  * Example store structure
  */
+
+
+// Store Array ============================================================
+
 const store = {
   // 5 or more questions are required
   questions: [
     {
+      id: cuid(),
       question: 'What country shares the name of a state in North America?',
       answers: [
         'Mississippi',
@@ -16,17 +21,19 @@ const store = {
       background: 'images/1world.jpg'
     },
     {
+      id: cuid(),
       question: 'War, what is it good for?',
       answers: [
         'Destruction',
         'Sweet military uniforms',
-        'Absolutely Nothing',
+        'Absolutely nothing',
         'Spending heaps of money'
       ],
       correctAnswer: 'Absolutely nothing',
       background: 'images/2war.jpg'
     },
     {
+      id: cuid(),
       question: 'What does the "19" in COVID-19 stand for?',
       answers: [
         'The year',
@@ -38,6 +45,7 @@ const store = {
       background: 'images/3covid.jpg'
     },
     {
+      id: cuid(),
       question: 'How many colors are in the rainbow?',
       answers: [
         '12',
@@ -49,6 +57,7 @@ const store = {
       background: 'images/4rainbow.jpg'
     },
     {
+      id: cuid(),
       question: 'What is the meaning of life?',
       answers: [
         'Yes',
@@ -64,32 +73,149 @@ const store = {
   questionNumber: 0,
   score: 0,
   wrong: 0,
-  
+  correct: 'images/correct.jpg',
+  incorrect: 'images/incorrect.jpg'
 };
 
-/**
- * 
- * Technical requirements:
- * 
- * Your app should include a render() function, that regenerates the view each time the store is updated. 
- * See your course material and access support for more details.
- *
- * NO additional HTML elements should be added to the index.html file.
- *
- * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
- *
- * SEE BELOW FOR THE CATEGORIES OF THE TYPES OF FUNCTIONS YOU WILL BE CREATING 👇
- * 
- */
+// Store Array ============================================================
 
-/********** TEMPLATE GENERATION FUNCTIONS **********/
 
-// These functions return HTML templates
 
-/********** RENDER FUNCTION(S) **********/
 
-// This function conditionally replaces the contents of the <main> tag based on the state of the store
+// Quiz Start ============================================================
 
-/********** EVENT HANDLER FUNCTIONS **********/
+function render() {
+  console.log('Render running')
 
-// These functions handle events (submit, click, etc)
+  if(store.quizStarted === false) {
+    $('main').html('<button id="start" class="begin">Start Quiz</button>');
+    $('#start').on('click', function () {
+      loadQuestion(store);
+    })
+  }
+}
+
+// Quiz Start ============================================================
+
+
+
+// Question Function =====================================================
+
+function loadQuestion(store) {
+  console.log('Load Question running')
+  if (store.questionNumber === store.questions.length) {
+    return results();
+  }
+  
+  let askQuestion = store.questions[store.questionNumber];
+
+  let choicesTemplate = '';
+  
+  for(let i = 0; i < askQuestion.answers.length; i++) {
+    choicesTemplate += `<label>
+    <input type="radio" id = 'radio' name = 'answer' value = '${askQuestion.answers[i]}' required= 'required'/>
+    ${askQuestion.answers[i]}
+    </label><br>`;
+  }
+  
+  let finalTemplate = `
+  <div class='questions boxed'>
+  <h3> Question: ${store.questionNumber + 1} / ${store.questions.length} </h3>
+  <h2 id= 'question'>${askQuestion.question}</h2>
+  <form class="boxed">
+  ${choicesTemplate}
+  </form>
+  <div>
+  <button id="submit">Submit</button>
+  </div>
+  `;
+  
+  $('main').html(finalTemplate);
+  $('#submit').on('click', () => {
+    guess(store);
+  })
+}
+
+// Question Function =====================================================
+
+
+
+// User Guesses ==========================================================
+
+function guess(store){
+  console.log('Guess running')
+  let correctAnswer = store.questions[store.questionNumber].correctAnswer;
+  let guesses = $(`input[type= 'radio']:checked`).val();
+  let templateHTML = '';
+
+  if (guesses === correctAnswer) {
+    store.score++;
+    templateHTML =
+    `<div class="questions boxed" style="">
+          <h1 id="question" class="smaller">CORRECT!</h2>
+          <button id="next">Next Question</button>
+          <h5>So far: ${store.score} / ${store.questions.length}</h5>
+      </div>`;
+
+  } else {
+    store.wrong++;
+    templateHTML = 
+      `<div class="questions boxed" style="">
+          <h1 id="question">OH NO...</h2>
+          <h3>The correct answer is <br> ${correctAnswer}<h3>
+          <button id="next">Next Question</button>
+          <h5>So far: ${store.score} / ${store.questions.length}</h5>
+      </div>`;
+  }
+
+  $('main').html(templateHTML);
+  $('#next').on('click', function () {
+      store.questionNumber++;
+      loadQuestion(store);
+  });
+  console.log(correctAnswer)
+}
+
+// User Guesses ==========================================================
+
+
+
+// Quiz Results ==========================================================
+
+function results() {
+  let templateHTML = 
+  `<div class="questions boxed">
+  <h3> Psyche! No more questions! </h3> 
+
+  <h1 id="question">And the Results Are...</h2>
+
+  <h3> Dude, you scored <br> ${store.score} / ${store.questions.length}! </h3>
+  <button id="again"> Again? </button>
+    </div>`;
+    
+  $('main').html(templateHTML);
+  $('#again').on('click', function() {
+    store.quizStarted = false;
+    store.questionNumber = 0;
+    store.score = 0;
+    loadQuestion(store);
+  });
+};
+
+// Quiz Results ==========================================================
+
+
+
+// adding random animations to play around with jQ libraries
+
+
+$(function() {
+  $('h1').hover(function(e) { 
+    $(this).addClass('animate__animated animate__shakeX');
+  }, 
+  function(e) {    
+    $(this).removeClass('animate__animated animate__shakeX');
+    });
+});
+
+$(render);

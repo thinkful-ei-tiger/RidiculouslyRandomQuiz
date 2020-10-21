@@ -6,3 +6,126 @@
   * https://github.com/andreacardybailey/responsive_example/blob/master/styles/responsive-base.css 
   *
 */
+
+body {
+  background-image: url("images/question.jpeg");
+  background-position: left;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-size: contain;
+  overflow: hidden;
+}
+
+div.questions{
+  background-size: contain;
+  box-shadow: 25px 25px 50px 0 rgb(0, 0, 0) inset, -25px -25px 50px 0 rgb(0, 0, 0) inset;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+h1 {
+  text-align: center;
+  color: rgb(0, 255, 13);
+  font-family: 'Mansalva', cursive;
+  text-shadow: 3px 5px 5px rgb(139, 139, 139);
+}
+
+.questions {
+  color: whitesmoke;
+  border: 3px solid whitesmoke;
+  border-radius: 3px;
+  padding: 15px 30px 15px 30px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 25px;
+  width: 50%;
+  text-decoration: none;
+  font-size: 28px;
+  text-align: center;
+  text-shadow: 3px 5px 5px rgb(0, 0, 0);
+  outline: 2px;
+  outline-color: black;
+}
+
+.begin {
+  color:rgb(0, 255, 13);
+  border: 3px solid whitesmoke;
+  background-color: black;
+  border-radius: 3px;
+  padding: 15px 30px;
+  margin-right: auto;
+  margin-left: auto;
+  text-decoration: none;
+  font-size: 28px;
+  display: flex;
+}
+
+.boxed {
+  border-radius: 30px;
+  margin-bottom: 30px;
+  background-image: radial-gradient(whitesmoke black);
+}
+
+#submit {
+  color: rgb(0, 255, 13);
+  border: 3px solid rgb(20, 20, 20);
+  background-color: black;
+  border-radius: 40px;
+  padding: 15px 30px;
+  margin-right: auto;
+  margin-left: auto;
+  text-decoration: none;
+  text-shadow: 3px 5px 5px rgb(139, 139, 139);
+  font-size: 28px;
+  display: flex;
+}
+
+#next {
+  color: rgb(0, 255, 13);
+  border: 3px solid whitesmoke;
+  background-color: black;
+  border-radius: 3px;
+  padding: 15px 30px;
+  margin-right: auto;
+  margin-left: auto;
+  text-decoration: none;
+  font-size: 28px;
+  display: flex;
+}
+
+#again {
+  color: rgb(0, 255, 13);
+  border: 3px solid whitesmoke;
+  background-color: black;
+  border-radius: 3px;
+  padding: 15px 30px;
+  margin-right: auto;
+  margin-left: auto;
+  text-decoration: none;
+  font-size: 28px;
+  display: flex;
+}
+
+.fontSize {
+  font-size: 15px;
+}
+
+
+@media all and(max-width: 600px) {
+  h1 {
+      font-size: 13px;
+  }
+
+  div.questions{
+      background-image: unset;
+  }
+
+  .smaller {
+      font-size: 50%;
+  }
+
+  form {
+      width: 75%;
+  }
+}
