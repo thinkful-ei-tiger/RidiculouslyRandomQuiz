@@ -85,14 +85,14 @@ const store = {
 // Quiz Start ============================================================
 
 function render() {
-  console.log('Render running')
-
+   
   if(store.quizStarted === false) {
-    $('main').html('<button id="start" class="begin">Start Quiz</button>');
+    $('main').html(`<button id='start' class='begin'>Start Quiz</button>`);
     $('#start').on('click', function () {
       loadQuestion(store);
     })
   }
+  
 }
 
 // Quiz Start ============================================================
@@ -108,29 +108,32 @@ function loadQuestion(store) {
   }
   
   let askQuestion = store.questions[store.questionNumber];
-
-  let choicesTemplate = '';
   
-  for(let i = 0; i < askQuestion.answers.length; i++) {
-    choicesTemplate += `<label>
-    <input type="radio" id = 'radio' name = 'answer' value = '${askQuestion.answers[i]}' required= 'required'/>
-    ${askQuestion.answers[i]}
-    </label><br>`;
-  }
-  
-  let finalTemplate = `
+  let template = `
   <div class='questions boxed'>
   <h3> Question: ${store.questionNumber + 1} / ${store.questions.length} </h3>
-  <h2 id= 'question'>${askQuestion.question}</h2>
-  <form class="boxed">
-  ${choicesTemplate}
+  <h2 id='question'>${askQuestion.question}</h2>
+  <form class='boxed'>
+  <label>
+    <input type='radio' name='answer' value='${askQuestion.answers[0]}' required>
+    ${askQuestion.answers[0]}
+    </label><br>
+    <input type='radio' name='answer' value='${askQuestion.answers[1]}'>
+    ${askQuestion.answers[1]}
+    </label><br>
+    <input type='radio' name='answer' value='${askQuestion.answers[2]}'>
+    ${askQuestion.answers[2]}
+    </label><br>
+    <input type='radio' name='answer' value='${askQuestion.answers[3]}'>
+    ${askQuestion.answers[3]}
+    </label><br>
   </form>
   <div>
-  <button id="submit">Submit</button>
+  <button id='submit'>Submit</button>
   </div>
   `;
   
-  $('main').html(finalTemplate);
+  $('main').html(template);
   $('#submit').on('click', () => {
     guess(store);
   })
@@ -145,25 +148,25 @@ function loadQuestion(store) {
 function guess(store){
   console.log('Guess running')
   let correctAnswer = store.questions[store.questionNumber].correctAnswer;
-  let guesses = $(`input[type= 'radio']:checked`).val();
+  let guesses = $(`input[type='radio']:checked`).val();
   let templateHTML = '';
 
   if (guesses === correctAnswer) {
     store.score++;
     templateHTML =
-    `<div class="questions boxed" style="">
-          <h1 id="question" class="smaller">CORRECT!</h2>
-          <button id="next">Next Question</button>
+    `<div class='questions boxed' style=''>
+          <h1 id='question' class='smaller'>CORRECT!</h2>
+          <button id='next'>Next Question</button>
           <h5>So far: ${store.score} / ${store.questions.length}</h5>
       </div>`;
 
   } else {
     store.wrong++;
     templateHTML = 
-      `<div class="questions boxed" style="">
-          <h1 id="question">OH NO...</h2>
+      `<div class='questions boxed' style=''>
+          <h1 id='question'>OH NO...</h2>
           <h3>The correct answer is <br> ${correctAnswer}<h3>
-          <button id="next">Next Question</button>
+          <button id='next'>Next Question</button>
           <h5>So far: ${store.score} / ${store.questions.length}</h5>
       </div>`;
   }
@@ -184,13 +187,13 @@ function guess(store){
 
 function results() {
   let templateHTML = 
-  `<div class="questions boxed">
+  `<div class='questions boxed'>
   <h3> Psyche! No more questions! </h3> 
 
-  <h1 id="question">And the Results Are...</h2>
+  <h1 id='question'>And the Results Are...</h2>
 
   <h3> Dude, you scored <br> ${store.score} / ${store.questions.length}! </h3>
-  <button id="again"> Again? </button>
+  <button id='again'> Again? </button>
     </div>`;
     
   $('main').html(templateHTML);
