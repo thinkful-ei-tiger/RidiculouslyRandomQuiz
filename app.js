@@ -115,7 +115,7 @@ function loadQuestion(store) {
   <h2 id='question'>${askQuestion.question}</h2>
   <form class='boxed'>
   <label>
-    <input type='radio' name='answer' value='${askQuestion.answers[0]}' required>
+    <input type='radio' name='answer' value='${askQuestion.answers[0]}' required/>
     ${askQuestion.answers[0]}
     </label><br>
     <input type='radio' name='answer' value='${askQuestion.answers[1]}'>
