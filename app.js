@@ -5,29 +5,66 @@ const store = {
   // 5 or more questions are required
   questions: [
     {
-      question: 'What color is broccoli?',
+      question: 'What country shares the name of a state in North America?',
       answers: [
-        'red',
-        'orange',
-        'pink',
-        'green'
+        'Mississippi',
+        'Michigan',
+        'Georgia',
+        'Vermont'
       ],
-      correctAnswer: 'green'
+      correctAnswer: 'Georgia',
+      background: 'images/1world.jpg'
     },
     {
-      question: 'What is the current year?',
+      question: 'War, what is it good for?',
       answers: [
-        '1970',
-        '2015',
-        '2019',
-        '2005'
+        'Destruction',
+        'Sweet military uniforms',
+        'Absolutely Nothing',
+        'Spending heaps of money'
       ],
-      correctAnswer: '2019'
-    }
+      correctAnswer: 'Absolutely nothing',
+      background: 'images/2war.jpg'
+    },
+    {
+      question: 'What does the "19" in COVID-19 stand for?',
+      answers: [
+        'The year',
+        'The strain',
+        'Amount of people killed',
+        'No one knows, really'
+      ],
+      correctAnswer: 'The year',
+      background: 'images/3covid.jpg'
+    },
+    {
+      question: 'How many colors are in the rainbow?',
+      answers: [
+        '12',
+        '7',
+        '5',
+        '36'
+      ],
+      correctAnswer: '7',
+      background: 'images/4rainbow.jpg'
+    },
+    {
+      question: 'What is the meaning of life?',
+      answers: [
+        'Yes',
+        'Eating cheese',
+        `Being able to solve a Rubik's Cube in under 3 minutes`,
+        '42'
+      ],
+      correctAnswer: '42',
+      background: 'images/5life.jpg'
+    },
   ],
   quizStarted: false,
   questionNumber: 0,
-  score: 0
+  score: 0,
+  wrong: 0,
+  
 };
 
 /**
