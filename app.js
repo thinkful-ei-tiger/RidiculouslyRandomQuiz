@@ -102,7 +102,7 @@ function render() {
 // Question Function =====================================================
 
 function loadQuestion(store) {
-  console.log('Load Question running')
+  
   if (store.questionNumber === store.questions.length) {
     return results();
   }
@@ -150,8 +150,13 @@ function guess(store){
   let correctAnswer = store.questions[store.questionNumber].correctAnswer;
   let guesses = $(`input[type='radio']:checked`).val();
   let templateHTML = '';
+  
 
-  if (guesses === correctAnswer) {
+  if(guesses === undefined) {
+    alert('Dude, come on, pick an answer. Since you tried to best me, now you have to start ALL OVER AGAIN!');
+    location.reload();
+
+  } else if (guesses === correctAnswer && !undefined) {
     store.score++;
     templateHTML =
     `<div class='questions boxed' style=''>
@@ -160,7 +165,7 @@ function guess(store){
           <h5>So far: ${store.score} / ${store.questions.length}</h5>
       </div>`;
 
-  } else {
+  } else if (guesses === !undefined){
     store.wrong++;
     templateHTML = 
       `<div class='questions boxed' style=''>
@@ -170,6 +175,7 @@ function guess(store){
           <h5>So far: ${store.score} / ${store.questions.length}</h5>
       </div>`;
   }
+  
 
   $('main').html(templateHTML);
   $('#next').on('click', function () {
