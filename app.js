@@ -99,6 +99,7 @@ function render() {
 
 
 
+
 // Question Function =====================================================
 
 function loadQuestion(store) {
@@ -143,6 +144,7 @@ function loadQuestion(store) {
 
 
 
+
 // User Guesses ==========================================================
 
 function guess(store){
@@ -165,7 +167,7 @@ function guess(store){
           <h5>So far: ${store.score} / ${store.questions.length}</h5>
       </div>`;
 
-  } else if (guesses === !undefined){
+  } else {
     store.wrong++;
     templateHTML = 
       `<div class='questions boxed' style=''>
