@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable quotes */
+/* eslint-disable no-undef */
 /**
  * Example store structure
  */
@@ -82,151 +85,183 @@ const store = {
 
 
 
-// Quiz Start ============================================================
+// Quiz Templates ============================================================
 
-function render() {
-   
-  if(store.quizStarted === false) {
-    $('main').html(`<button id='start' class='begin'>Start Quiz</button>`);
-    $('#start').on('click', function () {
-      loadQuestion(store);
-    })
-  }
-  
+function startTemplate() {
+  return `
+  <form>
+    <button id='start' class='begin'>Start Quiz</button>
+  </form>
+  `;
 }
 
-// Quiz Start ============================================================
-
-
-
-
-// Question Function =====================================================
-
-function loadQuestion(store) {
-  
-  if (store.questionNumber === store.questions.length) {
-    return results();
-  }
-  
-  let askQuestion = store.questions[store.questionNumber];
-  
-  let template = `
+function questionTemplate() {
+  let currentQuestion = store.questions[store.questionNumber];
+  return ` 
   <div class='questions boxed'>
   <h3> Question: ${store.questionNumber + 1} / ${store.questions.length} </h3>
-  <h2 id='question'>${askQuestion.question}</h2>
+  <h2 id='question'>${currentQuestion.question}</h2>
   <form class='boxed'>
   <label>
-    <input type='radio' name='answer' value='${askQuestion.answers[0]}' required/>
-    ${askQuestion.answers[0]}
+    <input type='radio' name='answer' value='${currentQuestion.answers[0]}' required/>
+    ${currentQuestion.answers[0]}
     </label><br>
-    <input type='radio' name='answer' value='${askQuestion.answers[1]}'>
-    ${askQuestion.answers[1]}
+    <input type='radio' name='answer' value='${currentQuestion.answers[1]}'>
+    ${currentQuestion.answers[1]}
     </label><br>
-    <input type='radio' name='answer' value='${askQuestion.answers[2]}'>
-    ${askQuestion.answers[2]}
+    <input type='radio' name='answer' value='${currentQuestion.answers[2]}'>
+    ${currentQuestion.answers[2]}
     </label><br>
-    <input type='radio' name='answer' value='${askQuestion.answers[3]}'>
-    ${askQuestion.answers[3]}
+    <input type='radio' name='answer' value='${currentQuestion.answers[3]}'>
+    ${currentQuestion.answers[3]}
     </label><br>
+    <button id='submit'>Submit</button>
   </form>
-  <div>
-  <button id='submit'>Submit</button>
+  `;
+}
+
+function rightTemplate() {
+  return `
+  <div class='questions boxed' style=''>
+    <h1 id='question' class='smaller'>CORRECT!</h2>
+    <button id='next'>Next Question</button>
+    <h5>So far: ${store.score} / ${store.questions.length}</h5>
   </div>
   `;
-  
+}
+
+function wrongTemplate() {
+  return `
+  <div class='questions boxed' style=''>
+    <h1 id='question'>OH NO...</h2>
+    <h3>The correct answer is <br> ${store.questions[store.questionNumber].correctAnswer}<h3>
+    <button id='next'>Next Question</button>
+    <h5>So far: ${store.score} / ${store.questions.length}</h5>
+  </div>
+  `;
+}
+
+function resultsTemplate() {
+  return `
+  <div class='questions boxed'>
+    <h3> Psyche! No more questions! </h3> 
+
+    <h1 id='question'>And the Results Are...</h2>
+
+    <h3> Dude, you scored <br> ${store.score} / ${store.questions.length}! </h3>
+    <button id='again'> Again? </button>
+  </div>
+  `;
+}
+
+// Quiz Templates ============================================================
+
+
+
+
+// Render Templates =====================================================
+
+function renderQuizStart() {
+  let template = startTemplate();
   $('main').html(template);
-  $('#submit').on('click', () => {
-    guess(store);
-  })
 }
 
-// Question Function =====================================================
+function renderQuestionCards() {
+  let template = questionTemplate();
+  $('main').html(template);
+}
+
+function renderRightAnswer() {
+  let template = rightTemplate();
+  $('main').html(template);
+}
+
+function renderWrongAnswer() {
+  let template = wrongTemplate();
+  $('main').html(template);
+}
+
+function renderQuizResults() {
+  let template = resultsTemplate();
+  $('main').html(template);
+}
+// Render Templates =====================================================
 
 
 
 
-// User Guesses ==========================================================
+// Event Handlers ==========================================================
 
-function guess(store){
-  console.log('Guess running')
-  let correctAnswer = store.questions[store.questionNumber].correctAnswer;
-  let guesses = $(`input[type='radio']:checked`).val();
-  let templateHTML = '';
-  
-
-  if(guesses === undefined) {
-    alert('Dude, come on, pick an answer. Since you tried to best me, now you have to start ALL OVER AGAIN!');
-    location.reload();
-
-  } else if (guesses === correctAnswer && !undefined) {
-    store.score++;
-    templateHTML =
-    `<div class='questions boxed' style=''>
-          <h1 id='question' class='smaller'>CORRECT!</h2>
-          <button id='next'>Next Question</button>
-          <h5>So far: ${store.score} / ${store.questions.length}</h5>
-      </div>`;
-
-  } else {
-    store.wrong++;
-    templateHTML = 
-      `<div class='questions boxed' style=''>
-          <h1 id='question'>OH NO...</h2>
-          <h3>The correct answer is <br> ${correctAnswer}<h3>
-          <button id='next'>Next Question</button>
-          <h5>So far: ${store.score} / ${store.questions.length}</h5>
-      </div>`;
+function quizStarting() {
+  if(!store.quizStarted) {
+    renderQuizStart();
   }
-  
-
-  $('main').html(templateHTML);
-  $('#next').on('click', function () {
-      store.questionNumber++;
-      loadQuestion(store);
-  });
-  console.log(correctAnswer)
 }
 
-// User Guesses ==========================================================
-
-
-
-// Quiz Results ==========================================================
-
-function results() {
-  let templateHTML = 
-  `<div class='questions boxed'>
-  <h3> Psyche! No more questions! </h3> 
-
-  <h1 id='question'>And the Results Are...</h2>
-
-  <h3> Dude, you scored <br> ${store.score} / ${store.questions.length}! </h3>
-  <button id='again'> Again? </button>
-    </div>`;
-    
-  $('main').html(templateHTML);
-  $('#again').on('click', function() {
-    store.quizStarted = false;
-    store.questionNumber = 0;
-    store.score = 0;
-    loadQuestion(store);
+function quizStart() {
+  $('main').on('click', '.begin', function(e) {
+    e.preventDefault();
+    store.quizStarted = true;
+    renderQuestionCards();
   });
-};
+}
 
-// Quiz Results ==========================================================
+function noAnswer() {
+  $('main').on('click', '#submit', function(e) {
+    if($(e.this).text() === 'Submit') {
+      if(!$(`input[name="answer"]:checked`).val()) {
+        alert('Please submit an answer.');
+      }
+    }
+  });
+}
 
+function runQuiz() {
+  $('main').on('submit', 'form', function(e) {
+    e.preventDefault();
+    
+    console.log('Loading Questions');
+    
+    if($(`input[name="answer"]:checked`).val() === store.questions[store.questionNumber].correctAnswer)
+    {
+      store.score += 1;
+      renderRightAnswer();
+    } else {
+      store.wrong += 1;
+      renderWrongAnswer();
+    }
+    store.questionNumber++;
+  });
+  
+  $('main').on('click', '#next', function() {
+    if(store.questionNumber < store.questions.length) {
+      renderQuestionCards();
+    } else {
+      renderQuizResults();
+    }
+  });
+}
 
+function restartQuiz() {
+  $('main').on('click', '#again', function(e) {
+    e.preventDefault();
+    store.questionNumber = 0;
+    store.wrong = 0;
+    store.score = 0;
+    renderQuestionCards();
+  });
+}
 
-// adding random animations to play around with jQ libraries
+// Event Handlers ==========================================================
 
+// Render Function =========================================================
 
-$(function() {
-  $('h1').hover(function(e) { 
-    $(this).addClass('animate__animated animate__shakeX');
-  }, 
-  function(e) {    
-    $(this).removeClass('animate__animated animate__shakeX');
-    });
-});
+function render() {
+  quizStarting();
+  quizStart();
+  runQuiz();
+  noAnswer();
+  restartQuiz();
+}
 
 $(render);
